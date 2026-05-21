@@ -11,10 +11,10 @@ models:
     backend: faster_whisper
     model_name: large-v3
     device: cuda
-    # Pascal GPUs (sm_61, e.g. P104-100) don't have tensor cores, so plain
-    # float16 is refused by CTranslate2. int8_float16 weights + fp16 activations
-    # is the canonical Pascal-friendly setting.
-    compute_type: int8_float16
+    # Pascal mining cards (P104-100, sm_61) refuse both float16 and
+    # int8_float16 in CTranslate2 4.x. int8 with float32 activations
+    # is the fastest option that actually loads on this GPU.
+    compute_type: int8
     beam_size: 5
 
   gpt-4o-transcribe:
