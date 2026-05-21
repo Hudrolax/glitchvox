@@ -1,0 +1,23 @@
+default_model: gigaam-v3
+
+models:
+  gigaam-v3:
+    backend: gigaam
+    variant: v3_rnnt       # самый точный для русского
+    device: cuda
+    longform_threshold_sec: 30
+
+  whisper-large-v3:
+    backend: faster_whisper
+    model_name: large-v3
+    device: cuda
+    compute_type: float16
+    beam_size: 5
+
+  gpt-4o-transcribe:
+    backend: openai
+    model_name: gpt-4o-transcribe
+
+server:
+  max_upload_mb: 100
+  request_timeout_sec: 600
