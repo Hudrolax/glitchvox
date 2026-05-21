@@ -26,6 +26,9 @@ class GigaAMTranscriber:
         self._model = None
         self._lock = asyncio.Lock()
 
+    async def warmup(self) -> None:
+        await self._ensure_loaded()
+
     async def _ensure_loaded(self) -> None:
         if self._model is not None:
             return

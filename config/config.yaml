@@ -6,6 +6,7 @@ models:
     variant: v3_rnnt       # самый точный для русского
     device: cuda
     longform_threshold_sec: 30
+    preload: true          # держать веса в VRAM с момента старта
 
   whisper-large-v3:
     backend: faster_whisper
@@ -16,6 +17,7 @@ models:
     # is the fastest option that actually loads on this GPU.
     compute_type: int8
     beam_size: 5
+    preload: true
 
   gpt-4o-transcribe:
     backend: openai

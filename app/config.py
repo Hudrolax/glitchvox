@@ -13,6 +13,7 @@ class GigaAMConfig(BaseModel):
     variant: Literal["v3_rnnt", "v3_ctc", "v2_rnnt", "v2_ctc"] = "v3_rnnt"
     device: Literal["cuda", "cpu"] = "cuda"
     longform_threshold_sec: float = 30.0
+    preload: bool = True
 
 
 class FasterWhisperConfig(BaseModel):
@@ -21,12 +22,14 @@ class FasterWhisperConfig(BaseModel):
     device: Literal["cuda", "cpu", "auto"] = "cuda"
     compute_type: str = "float16"
     beam_size: int = 5
+    preload: bool = True
 
 
 class OpenAIConfig(BaseModel):
     backend: Literal["openai"]
     model_name: str = "gpt-4o-transcribe"
     base_url: str | None = None
+    preload: bool = False  # nothing to load locally
 
 
 ModelConfig = Annotated[

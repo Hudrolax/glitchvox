@@ -25,6 +25,7 @@ log = logging.getLogger("glitchvox")
 async def lifespan(app: FastAPI):
     cfg = load_config()
     registry = TranscriberRegistry.from_config(cfg)
+    await registry.preload(cfg)
     service = TranscriptionService(registry)
 
     app.state.config = cfg

@@ -26,6 +26,10 @@ class OpenAITranscriber:
 
         self._client = AsyncOpenAI(api_key=api_key, base_url=cfg.base_url)
 
+    async def warmup(self) -> None:
+        # API-only backend: no local weights to preload.
+        return None
+
     async def transcribe(self, req: TranscriptionRequest) -> TranscriptionResult:
         buf = io.BytesIO(req.raw_bytes)
         buf.name = req.filename or "audio.wav"
