@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TORCH_HOME=/models_cache/torch
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        software-properties-common ca-certificates curl \
+        software-properties-common ca-certificates curl git \
     && add-apt-repository -y ppa:deadsnakes/ppa \
     && apt-get update && apt-get install -y --no-install-recommends \
         python3.11 python3.11-venv python3.11-dev \
