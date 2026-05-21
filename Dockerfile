@@ -24,6 +24,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
+# Pin PyTorch to the last release that still ships wheels with sm_61 (Pascal)
+# support — required for the NVIDIA P104-100 on the target host. PyTorch >=2.6
+# binaries dropped sm_61, so gigaam[torch] would refuse to run there.
+RUN python3.11 -m pip install --no-cache-dir \
+        --index-url https://download.pytorch.org/whl/cu124 \
+        torch==2.5.1 torchaudio==2.5.1
+
 COPY requirements.txt .
 RUN python3.11 -m pip install --no-cache-dir -r requirements.txt
 
