@@ -10,19 +10,25 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TORCH_HOME=/models_cache/torch
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        python3.11 python3.11-venv python3-pip \
-        ffmpeg libsndfile1 curl ca-certificates \
+        software-properties-common ca-certificates curl \
+    && add-apt-repository -y ppa:deadsnakes/ppa \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        python3.11 python3.11-venv python3.11-dev \
+        ffmpeg libsndfile1 \
     && rm -rf /var/lib/apt/lists/* \
+    && python3.11 -m ensurepip --upgrade \
     && ln -sf /usr/bin/python3.11 /usr/local/bin/python \
-    && ln -sf /usr/bin/python3.11 /usr/local/bin/python3
+    && ln -sf /usr/bin/python3.11 /usr/local/bin/python3 \
+    && ln -sf /usr/local/lib/python3.11/dist-packages/pip /usr/local/bin/pip || true \
+    && python3.11 -m pip install --upgrade pip
 
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN python3.11 -m pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python3.11", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
